@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'org.yuktisetu'
+version = '0.0.1-SNAPSHOT'
+description = 'notification-service'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    // The org.yuktisetu:* jars exist only in ~/.m2 after `./gradlew
+    // publishToMavenLocal` is run from framework/. Re-run it after ANY change to
+    // a framework module, or this service compiles against a stale copy.
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // DELIBERATELY ABSENT: user-dal and institute-dal. This service never joins
+    // to a student, college or department row -- recipient identity (userId,
+    // email, display name) arrives denormalised on the dispatch payload, exactly
+    // as notification-dal's own javadoc requires. Adding either DAL here would
+    // couple mail delivery to the academic model and defeat the reason this
+    // module was built dependency-free.
+    implementation 'org.yuktisetu:notification-dal:1.0.0-SNAPSHOT'
+    implementation 'org.yuktisetu:messaging-dal:1.0.0-SNAPSHOT'
+    implementation 'org.yuktisetu:core:1.0.0-SNAPSHOT'
+
+    // spring-boot-starter-kafka, NOT a bare spring-kafka dependency. Boot 4 split
+    // spring-boot-autoconfigure into per-technology modules and KafkaAutoConfiguration
+    // moved out of it -- Boot 3.4's autoconfigure jar lists it, Boot 4.1's does not.
+    // With only the bare library there is no KafkaTemplate, no KafkaAdmin, and
+    // @KafkaListener is silently ignored: the beans are created, the conditions
+    // report "matched", and nothing ever connects to a broker. The starter brings
+    // spring-boot-kafka (the autoconfiguration) alongside the library.
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
