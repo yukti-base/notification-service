@@ -1,0 +1,1 @@
+Shortlisting is HELD for [[${postingTitle}]] at [[${companyName}]]: coding data for [[${affectedStudents}]] application(s) on [[${platformName}]] could not be captured cleanly. Review them in the drive; shortlisting starts as soon as the last one is resolved. [[${reason}]]

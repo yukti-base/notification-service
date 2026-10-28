@@ -18,6 +18,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -75,10 +76,26 @@ public class DispatchIngestionService {
             NotificationTemplate contentTemplate = inAppTemplate != null ? inAppTemplate : emailTemplate;
 
             String metadataJson = writeMetadata(event);
+            if (wantsEmail && emailTemplate == null) {
+                log.warn("Dispatch {} asks for EMAIL but template '{}' has no active EMAIL version; "
+                        + "the email will carry the in-app text", dispatchId, event.templateKey());
+            }
+
+            // The EMAIL template rendered per recipient, kept for that recipient's
+            // email delivery row. Rendered here, once, for the same reason the
+            // in-app content is: a template edited after the blast must not change
+            // what a retry sends.
+            Map<Long, TemplateRenderer.Rendered> emailByRecipient = new HashMap<>();
 
             for (NotificationDispatchEvent.Recipient r : recipients) {
-                TemplateRenderer.Rendered rendered = templateRenderer.render(
-                        contentTemplate, event.commonVariables(), r.variables(), event.subject());
+                Map<String, Object> vars = withNames(r);
+                TemplateRenderer.Rendered rendered = contentTemplate == inAppTemplate
+                        ? templateRenderer.renderText(contentTemplate, event.commonVariables(), vars, event.subject())
+                        : templateRenderer.render(contentTemplate, event.commonVariables(), vars, event.subject());
+                if (wantsEmail && emailTemplate != null) {
+                    emailByRecipient.put(r.userId(), templateRenderer.renderEmail(
+                            emailTemplate, event.commonVariables(), vars, event.subject()));
+                }
 
                 notificationRows.add(new NotificationRow(
                         r.userId(),
@@ -109,9 +126,12 @@ public class DispatchIngestionService {
                             NotificationChannel.IN_APP.name(), dispatchId, event.templateKey()));
                 }
                 if (wantsEmail) {
+                    TemplateRenderer.Rendered email = emailByRecipient.get(r.userId());
                     deliveryRows.add(new DeliveryRow(
                             notificationId, r.userId(), r.email(),
-                            NotificationChannel.EMAIL.name(), dispatchId, event.templateKey()));
+                            NotificationChannel.EMAIL.name(), dispatchId, event.templateKey(),
+                            email == null ? null : truncate(email.subject(), 255),
+                            email == null ? null : email.body()));
                 }
             }
 
@@ -142,6 +162,22 @@ public class DispatchIngestionService {
             throw new IllegalStateException("Failed to accept dispatch " + dispatchId, e);
         }
     }
+
+    /**
+     * The templates greet people as studentName, staffName, userName or
+     * inviteeName. Producers send the name once, as the recipient's displayName,
+     * so it is filled into whichever of those the producer did not set itself.
+     */
+    private static Map<String, Object> withNames(NotificationDispatchEvent.Recipient r) {
+        Map<String, Object> vars = new HashMap<>(r.variables() == null ? Map.of() : r.variables());
+        String name = r.displayName() == null || r.displayName().isBlank() ? "there" : r.displayName().trim();
+        for (String key : NAME_VARIABLES) {
+            vars.putIfAbsent(key, name);
+        }
+        return vars;
+    }
+
+    private static final List<String> NAME_VARIABLES = List.of("studentName", "staffName", "userName", "inviteeName");
 
     private void validate(String dispatchId, NotificationDispatchEvent event) {
         if (dispatchId == null || dispatchId.isBlank()) {

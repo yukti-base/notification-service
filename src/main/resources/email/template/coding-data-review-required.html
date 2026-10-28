@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>YuktiSetu &mdash; Shortlisting Held</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding: 40px 20px;">
+    <tr>
+        <td align="center">
+            <table width="100%" max-width="560" cellpadding="0" cellspacing="0" style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <tr>
+                    <td style="background: linear-gradient(135deg, #92400e 0%, #f59e0b 100%); padding: 32px 24px; text-align: center;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.3px;">YuktiSetu</h1>
+                        <p style="color: rgba(255,255,255,0.85); margin: 6px 0 0; font-size: 13px;">Central Placement Management System</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 36px 32px;">
+                        <p style="font-size: 16px; color: #1f2937; margin: 0 0 8px;">
+                            Hi [[${staffName}]],
+                        </p>
+                        <p style="font-size: 15px; color: #4b5563; line-height: 1.6; margin: 0 0 20px;">
+                            The applicant pool for this drive is sealed, but <strong>shortlisting has not started and will not start until you act.</strong>
+                            Some applicants' coding data could not be captured cleanly when they applied &mdash; a handle that does not
+                            exist, a platform that stayed unavailable for the full hour of retries, or a page we could not read. Those
+                            applications need your decision before anyone is scored.
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; margin: 0 0 20px;">
+                            <tr>
+                                <td style="padding: 12px 16px; font-size: 13px; color: #6b7280; width: 45%;">Company</td>
+                                <td style="padding: 12px 16px; font-size: 14px; color: #1f2937; font-weight: 600;">[[${companyName}]]</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; font-size: 13px; color: #6b7280;">Role</td>
+                                <td style="padding: 12px 16px; font-size: 14px; color: #1f2937; font-weight: 600;">[[${postingTitle}]]</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; font-size: 13px; color: #6b7280;">Platforms</td>
+                                <td style="padding: 12px 16px; font-size: 14px; color: #1f2937; font-weight: 600;">[[${platformName}]]</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; font-size: 13px; color: #6b7280;">Applications to review</td>
+                                <td style="padding: 12px 16px; font-size: 14px; color: #1f2937; font-weight: 600;">[[${affectedStudents}]]</td>
+                            </tr>
+                        </table>
+                        <div style="background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 6px; padding: 14px 16px; margin: 0 0 24px;">
+                            <p style="font-size: 14px; color: #92400e; margin: 0; line-height: 1.5;"><strong>Why it failed:</strong><br>[[${reason}]]</p>
+                        </div>
+                        <p style="font-size: 15px; color: #1f2937; margin: 0 0 10px; font-weight: 600;">What you can do</p>
+                        <ul style="font-size: 14px; color: #4b5563; line-height: 1.7; margin: 0 0 24px; padding-left: 20px;">
+                            <li>Open the drive and review each flagged application. The reason recorded against each one says what went wrong and when.</li>
+                            <li>Shortlisting starts on its own the moment the last flagged application is resolved &mdash; there is nothing further to trigger.</li>
+                        </ul>
+                        <table cellpadding="0" cellspacing="0" style="margin: 0 auto 24px;">
+                            <tr>
+                                <td style="background: #f59e0b; border-radius: 8px;">
+                                    <a href="[[${actionUrl}]]" style="display: inline-block; padding: 13px 30px; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none;">Review the affected students</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <p style="font-size: 13px; color: #9ca3af; line-height: 1.6; margin: 0; border-top: 1px solid #f3f4f6; padding-top: 18px;">
+                            No student has been notified of anything, and no shortlist exists yet.
+                            This drive is waiting on you and will keep waiting until you decide.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Applications closed for [[${postingTitle}]] at [[${companyName}]] with [[${applicantCount}]] applicant(s). The pool is sealed and ready for shortlisting.

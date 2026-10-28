@@ -1,0 +1,1 @@
+[[${postingTitle}]] at [[${companyName}]]: [[${eligible}]] of [[${evaluated}]] students targeted are eligible and have been notified.

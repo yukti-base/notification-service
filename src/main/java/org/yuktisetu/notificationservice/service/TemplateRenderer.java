@@ -3,6 +3,7 @@ package org.yuktisetu.notificationservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.HtmlUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -94,6 +95,35 @@ public class TemplateRenderer {
         Map<String, Object> merged = new HashMap<>(common == null ? Map.of() : common);
         merged.putAll(perRecipient);
         return merged;
+    }
+
+    /**
+     * The EMAIL rendering. Thymeleaf HTML-escapes every [[...]] value even in TEXT
+     * mode, which is exactly right for the HTML body ("AT&T" becomes AT&amp;T in
+     * the markup) and wrong for the subject, a plain-text mail header -- so the
+     * subject alone is unescaped. The engine stays in TEXT mode because the
+     * templates inline values inside attributes (href="[[${actionUrl}]]"), which
+     * HTML mode does not process.
+     */
+    public Rendered renderEmail(NotificationTemplate template,
+                                Map<String, Object> common,
+                                Map<String, Object> perRecipient,
+                                String fallbackSubject) {
+        Rendered r = render(template, common, perRecipient, fallbackSubject);
+        return new Rendered(HtmlUtils.htmlUnescape(r.subject()), r.body());
+    }
+
+    /**
+     * The in-app rendering: title and body are plain text that the portals display
+     * as text, so neither may carry HTML entities -- a bell entry must read
+     * "AT&T", not "AT&amp;T".
+     */
+    public Rendered renderText(NotificationTemplate template,
+                               Map<String, Object> common,
+                               Map<String, Object> perRecipient,
+                               String fallbackSubject) {
+        Rendered r = render(template, common, perRecipient, fallbackSubject);
+        return new Rendered(HtmlUtils.htmlUnescape(r.subject()), HtmlUtils.htmlUnescape(r.body()));
     }
 
     public record Rendered(String subject, String body) {}

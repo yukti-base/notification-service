@@ -167,14 +167,15 @@ public class NotificationBatchWriter {
                 INSERT INTO notification_deliveries (
                     notification_id, recipient_user_id, recipient_address, channel,
                     status, attempts, next_attempt_at, source_event_id, template_key,
+                    rendered_subject, rendered_body,
                     created_at, updated_at, is_deleted
                 ) VALUES
                 """);
 
-        List<Object> args = new ArrayList<>(chunk.size() * 9);
+        List<Object> args = new ArrayList<>(chunk.size() * 8);
         for (int i = 0; i < chunk.size(); i++) {
             sql.append(i == 0 ? " " : ", ")
-               .append("(?, ?, ?, ?, 'PENDING', 0, now(), ?, ?, now(), now(), false)");
+               .append("(?, ?, ?, ?, 'PENDING', 0, now(), ?, ?, ?, ?, now(), now(), false)");
 
             DeliveryRow r = chunk.get(i);
             args.add(r.notificationId());
@@ -183,6 +184,8 @@ public class NotificationBatchWriter {
             args.add(r.channel());
             args.add(r.sourceEventId());
             args.add(r.templateKey());
+            args.add(r.renderedSubject());
+            args.add(r.renderedBody());
         }
 
         sql.append("""

@@ -1,0 +1,1 @@
+Applications for [[${postingTitle}]] at [[${companyName}]] have reopened until [[${deadline}]]. [[${note}]]

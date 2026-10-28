@@ -192,7 +192,14 @@ public class DeliveryDrainer {
         String body;
 
         Notification notification = delivery.getNotification();
-        if (notification != null) {
+        if (delivery.getRenderedBody() != null) {
+            // The EMAIL template, rendered for this recipient at ingestion.
+            subject = delivery.getRenderedSubject();
+            body = delivery.getRenderedBody();
+            log.debug("  deliveryId={} using email template '{}' rendered at ingestion",
+                    delivery.getId(), delivery.getTemplateKey());
+        } else if (notification != null) {
+            // Rows queued before rendered_body existed: the in-app text body.
             // Rendered once at ingestion; reuse it rather than re-rendering per
             // retry, so a template edited after the blast cannot silently change
             // what a student is told on the second attempt.
@@ -209,7 +216,7 @@ public class DeliveryDrainer {
                     .orElseThrow(() -> new IllegalStateException(
                             "No EMAIL template '" + delivery.getTemplateKey() + "' for group alias send"));
             TemplateRenderer.Rendered rendered =
-                    templateRenderer.render(template, Map.of(), Map.of(), delivery.getTemplateKey());
+                    templateRenderer.renderEmail(template, Map.of(), Map.of(), delivery.getTemplateKey());
             subject = rendered.subject();
             body = rendered.body();
             log.debug("  deliveryId={} rendered group-alias body from template '{}'",

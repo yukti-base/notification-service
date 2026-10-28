@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>YuktiSetu &mdash; Application Update</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding: 40px 20px;">
+    <tr>
+        <td align="center">
+            <table width="100%" max-width="560" cellpadding="0" cellspacing="0" style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <tr>
+                    <td style="background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%); padding: 32px 24px; text-align: center;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.3px;">YuktiSetu</h1>
+                        <p style="color: rgba(255,255,255,0.8); margin: 6px 0 0; font-size: 13px;">Central Placement Management System</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 36px 32px;">
+                        <p style="font-size: 16px; color: #1f2937; margin: 0 0 8px;">
+                            Hi [[${studentName}]],
+                        </p>
+                        <p style="font-size: 15px; color: #4b5563; line-height: 1.6; margin: 0 0 20px;">
+                            Your application has been <strong>removed from consideration</strong> by the Training &amp; Placement Cell.
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; margin: 0 0 24px;">
+                            <tr>
+                                <td style="padding: 12px 16px; font-size: 13px; color: #6b7280; width: 40%;">Company</td>
+                                <td style="padding: 12px 16px; font-size: 14px; color: #1f2937; font-weight: 600;">[[${companyName}]]</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; font-size: 13px; color: #6b7280; width: 40%;">Role</td>
+                                <td style="padding: 12px 16px; font-size: 14px; color: #1f2937; font-weight: 600;">[[${postingTitle}]]</td>
+                            </tr>
+                        </table>
+                        <div style="background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 6px; padding: 14px 16px; margin: 0 0 24px;">
+                            <p style="font-size: 14px; color: #991b1b; margin: 0; line-height: 1.5;"><strong>Reason recorded:</strong><br>[[${reason}]]</p>
+                        </div>
+                        <p style="font-size: 15px; color: #4b5563; line-height: 1.6; margin: 0 0 20px;">
+                            If you believe this is a mistake, reply to the TnP Cell with your name, roll number and this drive. The reason above is the one on record.
+                        </p>
+                        <table cellpadding="0" cellspacing="0" style="margin: 0 auto 24px;">
+                            <tr>
+                                <td style="background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%); border-radius: 8px;">
+                                    <a href="[[${actionUrl}]]" style="display: inline-block; padding: 14px 32px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px; border-radius: 8px;">
+                                        View drive
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
+                        <p style="font-size: 12px; color: #9ca3af; margin: 0; line-height: 1.5;">
+                            This decision was taken by TnP staff and is recorded against your application.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background: #f9fafb; padding: 20px 32px; text-align: center; border-top: 1px solid #e5e7eb;">
+                        <p style="font-size: 12px; color: #9ca3af; margin: 0;">
+                            PCET Training &amp; Placement Cell &middot; This is an automated message.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

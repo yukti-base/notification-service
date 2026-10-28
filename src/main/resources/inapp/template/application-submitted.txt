@@ -1,0 +1,1 @@
+Your application to [[${companyName}]] for [[${postingTitle}]] has been recorded. You can withdraw until [[${deadline}]].

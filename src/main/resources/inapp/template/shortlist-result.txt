@@ -1,0 +1,1 @@
+[[${postingTitle}]] at [[${companyName}]]: [[${outcome}]] [[${scoreNote}]]

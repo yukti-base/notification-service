@@ -1,0 +1,1 @@
+[[${companyName}]] is hiring for [[${postingTitle}]], and you are eligible. Applications close [[${deadline}]].

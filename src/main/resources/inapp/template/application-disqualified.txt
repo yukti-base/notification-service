@@ -1,0 +1,1 @@
+You have been removed from consideration for [[${postingTitle}]] at [[${companyName}]]. Reason on record: [[${reason}]]

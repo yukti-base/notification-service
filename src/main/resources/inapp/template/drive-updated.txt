@@ -1,0 +1,1 @@
+[[${companyName}]] updated the drive for [[${postingTitle}]]. Please review the details; applications close [[${deadline}]].
