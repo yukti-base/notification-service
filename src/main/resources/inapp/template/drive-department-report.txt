@@ -1,0 +1,1 @@
+[[${postingTitle}]] at [[${companyName}]] has ended: [[${total}]] student(s) from [[${departmentName}]] took part, [[${offered}]] selected. The full list was emailed to you.

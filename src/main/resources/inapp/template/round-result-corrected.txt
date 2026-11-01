@@ -1,0 +1,1 @@
+Your [[${roundName}]] result for [[${postingTitle}]] at [[${companyName}]] was corrected from [[${fromOutcome}]] to [[${toOutcome}]]. Reason: [[${reason}]] [[${nextStep}]]

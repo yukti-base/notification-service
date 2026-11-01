@@ -1,0 +1,1 @@
+Congratulations! You have been selected for [[${postingTitle}]] at [[${companyName}]] ([[${opportunity}]]). The company will send your offer letter directly.

@@ -151,6 +151,42 @@ public class TemplateSeeder {
                     "Shortlist published: [[${postingTitle}]]",
                     "inapp/template/shortlist-result.txt"),
 
+            // --- Rounds (2026-10-30) -----------------------------------------
+            new Seed("round-result", NotificationChannel.EMAIL, "en",
+                    "[[${roundName}]] result: [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/round-result.html"),
+            new Seed("round-result", NotificationChannel.IN_APP, "en",
+                    "[[${roundName}]] result: [[${postingTitle}]]",
+                    "inapp/template/round-result.txt"),
+
+            new Seed("round-scheduled", NotificationChannel.EMAIL, "en",
+                    "[[${roundName}]]: [[${postingTitle}]] at [[${companyName}]], [[${when}]]",
+                    "email/template/round-scheduled.html"),
+            new Seed("round-scheduled", NotificationChannel.IN_APP, "en",
+                    "[[${roundName}]]: [[${when}]]",
+                    "inapp/template/round-scheduled.txt"),
+
+            new Seed("round-result-corrected", NotificationChannel.EMAIL, "en",
+                    "Corrected: your [[${roundName}]] result for [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/round-result-corrected.html"),
+            new Seed("round-result-corrected", NotificationChannel.IN_APP, "en",
+                    "Result corrected: [[${roundName}]], [[${postingTitle}]]",
+                    "inapp/template/round-result-corrected.txt"),
+
+            new Seed("drive-offered", NotificationChannel.EMAIL, "en",
+                    "Congratulations! Selected for [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/drive-offered.html"),
+            new Seed("drive-offered", NotificationChannel.IN_APP, "en",
+                    "Selected: [[${postingTitle}]] at [[${companyName}]]",
+                    "inapp/template/drive-offered.txt"),
+
+            new Seed("drive-cancelled", NotificationChannel.EMAIL, "en",
+                    "Cancelled: [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/drive-cancelled.html"),
+            new Seed("drive-cancelled", NotificationChannel.IN_APP, "en",
+                    "Drive cancelled: [[${postingTitle}]] at [[${companyName}]]",
+                    "inapp/template/drive-cancelled.txt"),
+
             // --- Staff-facing ---------------------------------------------
             // Two of these three are IN_APP only, and that is the anti-spam
             // policy expressed in the seed list: staff get a bell entry for an
@@ -178,7 +214,16 @@ public class TemplateSeeder {
                     "email/template/coding-data-review-required.html"),
             new Seed("coding-data-review-required", NotificationChannel.IN_APP, "en",
                     "Shortlisting HELD: [[${postingTitle}]] needs your review",
-                    "inapp/template/coding-data-review-required.txt"));
+                    "inapp/template/coding-data-review-required.txt"),
+
+            // EMAIL: a faculty coordinator acts on this list outside the portal
+            // (department records, attendance), so the list itself goes to them.
+            new Seed("drive-department-report", NotificationChannel.EMAIL, "en",
+                    "Drive results for [[${departmentName}]]: [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/drive-department-report.html"),
+            new Seed("drive-department-report", NotificationChannel.IN_APP, "en",
+                    "Drive ended: [[${postingTitle}]], results for [[${departmentName}]]",
+                    "inapp/template/drive-department-report.txt"));
 
     private final NotificationTemplateRepository templateRepository;
 

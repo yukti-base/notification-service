@@ -117,4 +117,32 @@ class EmailRenderingTest {
             assertFalse(body.contains("[[${"), f + " left an expression unevaluated");
         }
     }
+
+    @Test
+    @DisplayName("the department report renders one table row per student, escaped, after a JSON round trip")
+    void departmentReportRows() throws Exception {
+        TemplateRenderer renderer = new TemplateRenderer();
+        NotificationTemplate t = template(NotificationChannel.EMAIL,
+                "Drive results for [[${departmentName}]]", "email/template/drive-department-report.html");
+        // As it arrives from Kafka: plain maps and lists, not the producer's types.
+        JsonMapper json = JsonMapper.builder().build();
+        Map<String, Object> perRecipient = json.readValue("""
+                {"staffName": "Prof. Kulkarni", "departmentName": "Computer Engineering", "collegeName": "PCCOE",
+                 "total": "2", "offered": "1",
+                 "rows": [
+                   {"prn": "2023070001", "name": "Asha <Rao>", "email": "asha@pccoe.org",
+                    "reached": "Round 2: HR interview", "outcome": "Offered"},
+                   {"prn": "2023070002", "name": "Ravi Patil", "email": "ravi@pccoe.org",
+                    "reached": "Round 1: Aptitude test", "outcome": "Absent"}
+                 ]}
+                """, Map.class);
+        String body = renderer.renderEmail(t, Map.of("companyName", "AT&T", "postingTitle", "SDE",
+                "actionUrl", "http://x"), perRecipient, "s").body();
+        assertTrue(body.contains("Asha &lt;Rao&gt;"), "student names are escaped");
+        assertTrue(body.contains("2023070002"));
+        assertTrue(body.contains("Round 1: Aptitude test"));
+        assertEquals(2, body.split("<tr style=\"border-top", -1).length - 1, "one row per student");
+        assertFalse(body.contains("th:each"), "the loop is evaluated, not printed");
+        assertFalse(body.contains("[[${"));
+    }
 }
