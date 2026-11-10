@@ -1,0 +1,1 @@
+[[${companyName}]] withdrew its offer for [[${postingTitle}]]. Reason: [[${reason}]]

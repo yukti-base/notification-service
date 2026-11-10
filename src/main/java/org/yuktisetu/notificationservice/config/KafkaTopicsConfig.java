@@ -37,4 +37,19 @@ public class KafkaTopicsConfig {
                 .replicas(1)
                 .build();
     }
+
+    /**
+     * Retry a failing dispatch with backoff (1 s doubling to 30 s, for about two
+     * minutes), then hand it to DispatchRequeueRecoverer, which parks it in the
+     * outbox to be re-sent five minutes later. Nothing is skipped.
+     */
+    @Bean
+    public org.springframework.kafka.listener.CommonErrorHandler kafkaErrorHandler(
+            org.yuktisetu.notificationservice.listener.DispatchRequeueRecoverer recoverer) {
+        org.springframework.util.backoff.ExponentialBackOff backOff =
+                new org.springframework.util.backoff.ExponentialBackOff(1000L, 2.0);
+        backOff.setMaxInterval(30_000L);
+        backOff.setMaxElapsedTime(120_000L);
+        return new org.springframework.kafka.listener.DefaultErrorHandler(recoverer, backOff);
+    }
 }

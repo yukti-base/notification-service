@@ -187,6 +187,25 @@ public class TemplateSeeder {
                     "Drive cancelled: [[${postingTitle}]] at [[${companyName}]]",
                     "inapp/template/drive-cancelled.txt"),
 
+            new Seed("offer-withdrawal-decided", NotificationChannel.EMAIL, "en",
+                    "Withdrawal [[${decision}]]: [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/offer-withdrawal-decided.html"),
+            new Seed("offer-withdrawal-decided", NotificationChannel.IN_APP, "en",
+                    "Withdrawal [[${decision}]]: [[${postingTitle}]]",
+                    "inapp/template/offer-withdrawal-decided.txt"),
+
+            new Seed("offer-withdrawn-by-company", NotificationChannel.EMAIL, "en",
+                    "Offer withdrawn: [[${postingTitle}]] at [[${companyName}]]",
+                    "email/template/offer-withdrawn-by-company.html"),
+            new Seed("offer-withdrawn-by-company", NotificationChannel.IN_APP, "en",
+                    "Offer withdrawn: [[${postingTitle}]] at [[${companyName}]]",
+                    "inapp/template/offer-withdrawn-by-company.txt"),
+
+            // Staff, in-app only: a decision waits on them, and the bell is enough.
+            new Seed("offer-withdrawal-requested", NotificationChannel.IN_APP, "en",
+                    "Withdrawal request: [[${studentName}]], [[${postingTitle}]]",
+                    "inapp/template/offer-withdrawal-requested.txt"),
+
             // --- Staff-facing ---------------------------------------------
             // Two of these three are IN_APP only, and that is the anti-spam
             // policy expressed in the seed list: staff get a bell entry for an

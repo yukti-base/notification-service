@@ -145,4 +145,22 @@ class EmailRenderingTest {
         assertFalse(body.contains("th:each"), "the loop is evaluated, not printed");
         assertFalse(body.contains("[[${"));
     }
+
+    @Test
+    @DisplayName("the withdrawal decision shows the TnP's note only when there is one")
+    void withdrawalDecisionNoteIsOptional() throws Exception {
+        TemplateRenderer renderer = new TemplateRenderer();
+        NotificationTemplate t = template(NotificationChannel.EMAIL, "s", "email/template/offer-withdrawal-decided.html");
+        Map<String, Object> vars = new java.util.HashMap<>(Map.of("companyName", "Acme", "postingTitle", "SDE",
+                "decision", "approved", "outcome", "Your offer is withdrawn.", "actionUrl", "http://x"));
+        vars.put("note", "");
+        String without = renderer.renderEmail(t, vars, Map.of("studentName", "Asha"), "s").body();
+        assertFalse(without.contains("Note from the TnP Cell"), "no empty note box");
+        assertFalse(without.contains("th:if"), "the condition is evaluated, not printed");
+
+        vars.put("note", "Approved after a call with the company");
+        String with = renderer.renderEmail(t, vars, Map.of("studentName", "Asha"), "s").body();
+        assertTrue(with.contains("Note from the TnP Cell"));
+        assertTrue(with.contains("Approved after a call with the company"));
+    }
 }

@@ -55,11 +55,18 @@ public class NotificationDispatchListener {
             log.error("Rejecting unprocessable dispatch eventId={}: {}", eventId, e.getMessage());
             ack.acknowledge();
 
-        } catch (Exception e) {
-            // Transient -- database down, template table locked. Do not
-            // acknowledge; the broker redelivers and the constraints make that safe.
-            log.error("Dispatch ingestion failed for eventId={}, leaving unacknowledged for redelivery: {}",
-                    eventId, e.getMessage(), e);
+        } catch (tools.jackson.core.JacksonException e) {
+            // Unreadable JSON never becomes readable by retrying.
+            log.error("Rejecting unreadable dispatch message: {}", e.getOriginalMessage());
+            ack.acknowledge();
+        } catch (RuntimeException e) {
+            // Transient -- database down, template table locked. Rethrown so the
+            // container's error handler retries with backoff and, if that runs out,
+            // puts the message back in the outbox (DispatchRequeueRecoverer).
+            // Swallowing it here used to skip the message for good: the next
+            // message's acknowledgement committed the offset past it.
+            log.warn("Dispatch ingestion failed for eventId={}, will retry: {}", eventId, e.getMessage());
+            throw e;
         }
     }
 }

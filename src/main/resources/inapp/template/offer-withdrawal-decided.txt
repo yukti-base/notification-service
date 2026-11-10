@@ -1,0 +1,1 @@
+Your request to withdraw from the [[${postingTitle}]] offer at [[${companyName}]] was [[${decision}]]. [[${outcome}]] [[${note}]]

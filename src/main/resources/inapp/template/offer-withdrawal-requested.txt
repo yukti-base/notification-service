@@ -1,0 +1,1 @@
+[[${studentName}]] asked to withdraw from their accepted offer for [[${postingTitle}]] at [[${companyName}]]. Reason: [[${reason}]] Review it on the drive's Results tab.
